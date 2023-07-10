@@ -1,0 +1,26 @@
+ <%- include("./partials/header") %>
+  <div class="container mt-5">
+    <form action="/add/todo" method="POST" class="d-flex">
+      <input type="text" name="todo" class="form-control " placeholder="Enter todo">
+      <input type="submit" value="Add todo" class="btn btn-md btn-success mx-2">
+    </form>
+  
+    <% if(locals.deleteMessage!=null){%>
+      <div class="container my-3 bg-light text-danger border border-danger">
+        <h1 class="font-weight-bolder display-3">
+          <%=deleteMessage %>
+        </h1>
+      </div> 
+      <%}%>
+
+        <%function todo(req,res){ %>
+          <%- include("./partials/displayTodo")%>
+            <%}%>
+
+              <%todo();%>
+               <%- include("./partials/footer") %>
+
+
+
+
+
