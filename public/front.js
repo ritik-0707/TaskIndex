@@ -1,5 +1,3 @@
-
-
 //post method api:---
 async function postJSON(data) {
   const url = "http://localhost:5000/";
@@ -11,7 +9,6 @@ async function postJSON(data) {
     body: JSON.stringify(data),
   }
   try {
-
     const response = await fetch(url, requestOptions);
     const result = await response.json();
     getData();
@@ -27,8 +24,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let name = document.getElementById('todo_item').value;
     const data = { "todo": name }
     postJSON(data);
-      document.getElementById("myForm").reset();
-   
+    document.getElementById("myForm").reset();
   })
 });
 
@@ -42,7 +38,6 @@ async function updateData(_id, updatedData) {
     },
     body: JSON.stringify(updatedData)
   };
-
   try {
     const response = await fetch(url, requestOptions);
     if (response.ok) {
@@ -55,7 +50,7 @@ async function updateData(_id, updatedData) {
       errorMessage.textContent = `ERROR: Unable to update ${updatedData.todo}!!`;
       errorMessage.style.display = "block";
       errorMessage.style.backgroundColor = "red";
-      setTimeout(function() {
+      setTimeout(function () {
         errorMessage.style.display = "none";
       }, 3000);
     }
@@ -72,9 +67,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let id = document.getElementById('update_id').value;
     const data = { "todo": name }
     updateData(id, data);
-    
-      document.getElementById("myForm1").reset();
-   
+    document.getElementById("myForm1").reset();
   })
 });
 
@@ -84,10 +77,8 @@ async function deleteData(_id) {
   const requestOptions = {
     method: 'DELETE'
   };
-
   try {
     const response = await fetch(url, requestOptions);
-
     if (response.ok) {
       const result = await response.json();
       console.log(result);
@@ -100,7 +91,46 @@ async function deleteData(_id) {
   }
 };
 
+const getParticular = async (data) => {
+  let response = await fetch(`http://localhost:5000/find/${data.todo}`,
+    {
+      method: 'get',
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+  if (!response.ok) {
+    var errorMessage = document.getElementById("demo");
+    errorMessage.textContent = `ERROR: ${data.todo} is not FOUND!!`;
+    errorMessage.style.display = "block";
+    errorMessage.style.backgroundColor = "red";
+    setTimeout(function () {
+      errorMessage.style.display = "none";
+    }, 3000);
+  } else {
+    let jsonData = await response.json();
+    console.log(jsonData);
+    document.getElementById("userdata").innerHTML =
+      `<tr>
+         <th scope="row">${1}</th>
+            <td>${jsonData.todo.todo}</td>
+            <td>${jsonData.todo._id}</td>
+            <td><button type="button" class="btn btn-danger" onclick="deleteData('${jsonData.todo._id}')">Delete</button></td>
+            </tr>`
+  }
+};
 
+window.addEventListener("DOMContentLoaded", (event) => {
+  var form = document.getElementById('formnav')
+  form.addEventListener('submit', function (e) {
+    e.preventDefault()
+    let name = document.getElementById('todo_search').value;
+    const data = { "todo": name }
+    getParticular(data);
+    document.getElementById("formnav").reset();
+  })
+});
 
 
 const getData = async () => {
@@ -123,7 +153,6 @@ const getData = async () => {
             <td><button type="button" class="btn btn-danger" onclick="deleteData('${user._id}')">Delete</button></td>
             </tr>`
     ).join("");
-
 };
 
 getData();
