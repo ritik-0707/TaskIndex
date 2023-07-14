@@ -29,7 +29,7 @@ app.get("/getData", async (req, res) => {
 app.get("/find/:todo", async (req, res) => {
   const p1 = req.params.todo;
   console.log(p1);
-  let data = await Todos.findOne({ todo: p1 });
+  let data = await Todos.find({ todo: p1 });
   if (data) {
     res.send({ todo: data });
   } else {

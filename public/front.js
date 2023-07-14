@@ -30,6 +30,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 //put api:-
 async function updateData(_id, updatedData) {
+  const confirmed = confirm(`"Are you sure you want to update this item?"`);
+  if(confirmed){
   const url = `http://localhost:5000/update/${_id}`;
   const requestOptions = {
     method: 'PUT',
@@ -44,6 +46,13 @@ async function updateData(_id, updatedData) {
       const result = await response.json();
       console.log(result);
       getData();
+      var errorMessage = document.getElementById("demo");
+      errorMessage.textContent = `element Updated successfully!!`;
+      errorMessage.style.display = "block";
+      errorMessage.style.backgroundColor = "MediumSeaGreen";
+      setTimeout(function () {
+        errorMessage.style.display = "none";
+      }, 1000);
     } else {
       console.error('Error modifying data');
       var errorMessage = document.getElementById("demo");
@@ -57,6 +66,9 @@ async function updateData(_id, updatedData) {
   } catch (error) {
     console.error('Request failed:', error);
   }
+}else{
+    getData();
+}
 };
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -73,6 +85,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 //delete api:-
 async function deleteData(_id) {
+  const confirmed = confirm(`"Are you sure you want to delete this item?"`);
+  if (confirmed) {
   const url = `http://localhost:5000/delete/${_id}`;
   const requestOptions = {
     method: 'DELETE'
@@ -83,12 +97,22 @@ async function deleteData(_id) {
       const result = await response.json();
       console.log(result);
       getData();
+      var errorMessage = document.getElementById("demo");
+      errorMessage.textContent = `element deleted successfully!!`;
+      errorMessage.style.display = "block";
+      errorMessage.style.backgroundColor = "MediumSeaGreen";
+      setTimeout(function () {
+        errorMessage.style.display = "none";
+      }, 1000);
     } else {
       console.error('Error deleting data');
     }
   } catch (error) {
     console.error('Request failed:', error);
   }
+} else {
+  getData();
+}
 };
 
 const getParticular = async (data) => {
@@ -108,16 +132,30 @@ const getParticular = async (data) => {
     setTimeout(function () {
       errorMessage.style.display = "none";
     }, 3000);
+  
   } else {
     let jsonData = await response.json();
     console.log(jsonData);
-    document.getElementById("userdata").innerHTML =
+    if (jsonData.todo.length === 0) {
+      var errorMessage = document.getElementById("demo");
+      errorMessage.textContent = `ERROR: ${data.todo} is not FOUND!!`;
+      errorMessage.style.display = "block";
+      errorMessage.style.backgroundColor = "red";
+      setTimeout(function () {
+        errorMessage.style.display = "none";
+      }, 3000);
+    }
+     else {
+    document.getElementById("userdata").innerHTML =jsonData.todo
+    .map((user, cnt) =>
       `<tr>
-         <th scope="row">${1}</th>
-            <td>${jsonData.todo.todo}</td>
-            <td>${jsonData.todo._id}</td>
-            <td><button type="button" class="btn btn-danger" onclick="deleteData('${jsonData.todo._id}')">Delete</button></td>
-            </tr>`
+      <th scope="row">${cnt + 1}</th>
+      <td>${user.todo}</td>
+      <td>${user._id}</td>
+      <td><button type="button" class="btn btn-danger" onclick="deleteData('${user._id}')">Delete</button></td>
+       </tr>`
+    ).join("");
+    }
   }
 };
 
