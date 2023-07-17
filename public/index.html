@@ -15,33 +15,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-        <a href="/" class="navbar-brand mb-0 h1">Todo App</a>
-        <form class="form-inline my-2 my-lg-0" id="formnav" method="GET">
+    <nav class="navbar navbar-dark bg-info">
+        <a href="/public/" class="navbar-brand mb-0 h1">Todo App</a>
+        <form class="form-inline my-2 my-lg-1" id="formnav" method="GET">
             <input id="todo_search" class="form-control mr-sm-2" name="todo" type="search" placeholder="Search"
                 aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <button class="btn btn-success mr-sm-3" type="submit">Search</button>
+            <a href="/logout" class="btn btn-danger mr-sm-0">Logout</a>
+        </form> 
     </nav>
 
     <div class="container mt-4">
- 
-        <p id="demo" class="p-3 mb-2 text-white rounded-pill"></p>
-        <div class="container mt-2">
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Todo: </th>
-                        <th scope="col"> _Id: </th>
-                        <th scope="col">Remove:</th>
-                    </tr>
-                </thead>
-                <tbody id="userdata">
-                </tbody>
-            </table>
-        </div>
-
         <div class="container mt-2">
             <form id="myForm" method="POST" class="d-flex">
                 <input id="todo_item" type="text" name="todo" class="form-control " placeholder="Enter todo.." required>
@@ -59,7 +43,21 @@
                 <input id="update_submit" type="submit" value="UPDATE" class="btn btn-md btn-primary mx-2">
             </form>
         </div>
-
+        <p id="demo" class="p-3 mb-2 text-white rounded-pill text-center"></p>
+        <div class="container mt-2">
+            <table class="table table-striped">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Todo: </th>
+                        <th scope="col"> _Id: </th>
+                        <th scope="col">Remove:</th>
+                    </tr>
+                </thead>
+                <tbody id="userdata">
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>
